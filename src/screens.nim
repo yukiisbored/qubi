@@ -31,6 +31,26 @@ const
 
   InitialBalance = 100
 
+  SurpriseCosts = [
+    ( 2,  10, "Coffee"),
+    ( 3,  15, "Parking"),
+    ( 5,  20, "Lunch"),
+    ( 7,  25, "Breakfast"),
+    (11,  30, "Dinner"),
+    (13,  35, "Utilities"),
+    (17,  40, "Supply"),
+    (19,  45, "Subscription"),
+    (23,  50, "TV license"),
+    (29,  55, "Phone bill"),
+    (31,  60, "Credit card"),
+    (37,  65, "Home repair"),
+    (41,  70, "Car repair"),
+    (43,  75, "Hospital visit"),
+    (47,  80, "Social security"),
+    (53,  90, "Student loan"),
+    (59,  95, "Debt")
+  ]
+
 var
   day = 0
   balance = InitialBalance
@@ -167,7 +187,7 @@ method init*(s: TransitionScreen) =
   s.endTime = getTime() + s.duration
 
   if day >= 6:
-    s.gameDuration = rand(5..30).float
+    s.gameDuration = rand(15..30).float
 
 method update*(s: TransitionScreen) =
   beginDrawing:
@@ -198,7 +218,7 @@ proc reset(s: GameScreen) =
   s.word = sample(s.words).toLower
   s.total.inc()
 
-  if day >= 15 and rand(1..100) mod 3 == 0 and s.word.len >= 4:
+  if day >= 12 and rand(1..100) mod 3 == 0 and s.word.len >= 4:
       let 
         first = s.word[0]
         last = s.word[^1]
@@ -289,6 +309,14 @@ method init*(s: EndScreen) =
   if day == 6:
     s.messages.add("--- To meet high demand, allocated session time")
     s.messages.add("--- are now randomized.")
+
+  block:
+    if day >= 15:
+      let f = rand(2..1000)
+
+      for x in SurpriseCosts:
+        if f mod x[0] == 0:
+          s.items.add((x[2], -x[1]))
 
   s.total = if s.items.len != 0: foldr(s.items.mapIt(it[1]), a + b)
             else: 0
