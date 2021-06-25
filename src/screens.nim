@@ -28,7 +28,7 @@ const
 
   OverdraftLimit = 100
 
-  RentIncreaseFactor = 10 / 100
+  RentIncreaseFactor = 5 / 100
 
   InitialBalance = 100
 
@@ -236,7 +236,7 @@ method update*(s: GameScreen) =
       var key = getKeyPressed()
 
       while key > 0:
-        if (key >= 65 and key <= 90) or key == 39:
+        if key >= 65 and key <= 90:
           s.input &= $key.char
 
         key = getKeyPressed()
