@@ -1,10 +1,6 @@
 image: nixos/nix:latest
 
-stages:
-  - build
-
-build:pages:
-  stage: build
+pages:
   script:
     - nix-shell --command 'nimble refresh'
     - nix-shell --command 'nimble install --depsOnly'
