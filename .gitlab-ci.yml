@@ -6,7 +6,9 @@ stages:
 build:pages:
   stage: build
   script:
-    - nix-shell --command 'nimble refresh; nimble web'
+    - nix-shell --command 'nimble refresh'
+    - nix-shell --command 'nimble install --depsOnly'
+    - nix-shell --command 'nimble build web'
   artifacts:
     paths:
       - public
