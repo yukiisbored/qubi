@@ -8,7 +8,7 @@ build:pages:
   script:
     - nix-shell --command 'nimble refresh'
     - nix-shell --command 'nimble install --depsOnly'
-    - nix-shell --command 'nimble build web'
+    - nix-shell --command 'nimble web'
   artifacts:
     paths:
       - public
