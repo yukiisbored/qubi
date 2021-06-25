@@ -200,7 +200,6 @@ proc reset(s: GameScreen) =
   s.total.inc()
 
 method init*(s: GameScreen) = 
-  randomize()
   s.words = toSeq(lines "assets/words.txt")
   s.reset()
   s.endTime = getTime() + s.duration

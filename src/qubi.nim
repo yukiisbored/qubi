@@ -2,11 +2,14 @@ import
   nimraylib_now,
   consts,
   screen,
+  random,
   screens
 
 proc update() {.cdecl.} = updateScreen()
 
 proc main() =
+  randomize()
+
   initWindow(Size, Size, "OpenWorkstation Enterprise - Licensed for Qubi Innovative Solutions, LLC")
 
   changeScreen(newKernelBootScreen(1f))
