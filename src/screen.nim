@@ -17,8 +17,8 @@ proc changeScreen*(s: Screen) =
   if currentScreen != nil:
     currentScreen.deinit()
 
-  s.init()
   currentScreen = s
+  s.init()
 
 proc updateScreen*() =
   if currentScreen != nil:
