@@ -312,7 +312,7 @@ method init*(s: EndScreen) =
 
   block:
     if day >= 15:
-      let f = rand(2..1000)
+      let f = rand(2..100)
 
       for x in SurpriseCosts:
         if f mod x[0] == 0:
