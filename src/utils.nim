@@ -1,0 +1,1 @@
+proc lerp(a: float, b: float, c: float): float = (a * (1d - c)) + (b * c)

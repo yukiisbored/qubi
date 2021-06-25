@@ -9,7 +9,7 @@ proc update() {.cdecl.} = updateScreen()
 proc main() =
   initWindow(Size, Size, "OpenWorkstation Enterprise - Licensed for Qubi Innovative Solutions, LLC")
 
-  changeScreen(newHelloWorldScreen())
+  changeScreen(newGameScreen())
 
   when defined(emscripten):
     emscriptenSetMainLoop(update, 0, 1)
