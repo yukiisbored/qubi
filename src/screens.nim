@@ -282,6 +282,9 @@ method init*(s: EndScreen) =
     s.items.add(("Rent", rent * -1))
     rent += int(rent.float * RentIncreaseFactor)
     s.messages.add("--- Your landlord has increased rent: " & $rent)
+  else:
+    let dayDue = DaysPerWeek - (day mod DaysPerWeek)
+    s.messages.add("--- Rent is due in " & $dayDue & " day(s): " & $rent)
 
   if day == 6:
     s.messages.add("--- To meet high demand, allocated session time")
