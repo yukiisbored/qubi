@@ -1,31 +1,21 @@
-import nimraylib_now
+import
+  nimraylib_now,
+  consts,
+  screen,
+  screens
 
-const
-  Size = 512
-  Center = Size div 2
-
-proc update() {.cdecl.} =
-  beginDrawing:
-    clearBackground(White)
-
-    drawFPS(10, 10)
-
-    block:
-      let
-        word = "Hello, world!"
-        width = measureText(word, 40) div 2
-      drawText(word, Center - width, Center - 20, 40, Lightgray)
+proc update() {.cdecl.} = updateScreen()
 
 proc main() =
-  initWindow(Size, Size, "OpenWorkstation Enterprise")
+  initWindow(Size, Size, "OpenWorkstation Enterprise - Licensed for Qubi Innovative Solutions, LLC")
+
+  changeScreen(newHelloWorldScreen())
 
   when defined(emscripten):
     emscriptenSetMainLoop(update, 0, 1)
   else:
     setTargetFPS(60)
-
-    while not windowShouldClose():
-      update()
+    while not windowShouldClose(): update()
 
   closeWindow()
 
