@@ -1,0 +1,12 @@
+image: nixos/nix:latest
+
+stages:
+  - build
+
+build:pages:
+  stage: build
+  script:
+    - nix-shell --command 'nimble web'
+  artifacts:
+    paths:
+      - public
