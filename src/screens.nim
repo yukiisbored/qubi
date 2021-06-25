@@ -18,24 +18,23 @@ const
 
   DaysPerWeek = 3
 
-  Goal = Duration.int
+  DailyGoal = int(Duration * 80 / 100)
   
-  BaseDailyRent = Goal
-  BaseWeeklyRent = BaseDailyRent * DaysPerWeek
+  BaseRent = int(DailyGoal * DaysPerWeek * 60 / 100)
   
   CompensationPerWord = 1
   CostPerBadWord = -2
 
   OverdraftLimit = 100
 
-  RentIncreaseFactor = 5 / 100
+  RentIncreaseFactor = 10 / 100
 
   InitialBalance = 100
 
 var
   day = 0
   balance = InitialBalance
-  rent = BaseWeeklyRent
+  rent = BaseRent
 
 type
   KernelBootScreen = ref object of Screen
@@ -198,6 +197,18 @@ proc reset(s: GameScreen) =
   s.input = ""
   s.word = sample(s.words).toLower
   s.total.inc()
+
+  if day >= 15 and rand(1..100) mod 3 == 0 and s.word.len >= 4:
+      let 
+        first = s.word[0]
+        last = s.word[^1]
+      
+      var middle = s.word[1..^2]
+
+      shuffle(middle)
+
+      s.word = $first & middle & $last
+
 
 method init*(s: GameScreen) = 
   s.words = toSeq(lines "assets/words.txt")
