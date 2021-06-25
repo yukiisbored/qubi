@@ -7,6 +7,7 @@ let
     buildInputs = with pkgs; [
       nim
       emscripten
+      git
 
       xorg.libX11
       xorg.libXrandr
