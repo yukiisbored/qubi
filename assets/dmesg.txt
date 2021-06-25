@@ -1,0 +1,43 @@
+Copyright (c) 2024-2032 Qubi Enterprise Solutions.
+Copyright (c) 1992-2032 OpenWorkstation Project.
+Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+    National Institute of Science and Technology. All Rights. Reserved.
+OpenWorkstation Enterprise 37.5-STABLE #0 stable/37.5: Mon May 16 21:06:35 UTC 2032
+    buildbot@alice.buildbot.int.qubi.enterprise:/usr/obj/usr/src/sys/GENERIC rv64
+VT(efifb): resolution 640x480
+module firmware already present!
+real memory  = 16777216 (16 GB)
+avail memory = 16609443 (16 GB)
+Starting CPU 1 (1)
+Starting CPU 2 (2)
+Starting CPU 3 (3)
+Starting CPU 4 (4)
+Starting CPU 5 (5)
+Starting CPU 6 (6)
+Starting CPU 7 (7)
+Starting CPU 8 (8)
+Starting CPU 9 (9)
+Starting CPU 10 (10)
+Starting CPU 11 (12)
+OpenWorkstation/SMP: Multiprocessor System Detected: 12 CPUs
+random: unblocking device.
+random: entropy device external interface.
+kbd0 at kbdmux0
+ofwbus0: <Open Firmware Device Tree>
+simplebus0: <Flattened device tree simple bus> on ofwbus0
+ofw_clkbus0: <OFW clocks bus> on ofwbus0
+clk_fixed0: <Fixed clock> on ofw_clkbus0
+clk_fixed1: <Fixed clock> on ofw_clkbus0
+regfix0: <Fixed Regulator> on ofwbus0
+regfix1: <Fixed Regulator> on ofwbus0
+qxbox8238_fw0: <QxBox 8238> on simplebus0
+ofw_clkbus1: <OFW clocks bus> on qxbox8238_fw0
+qxpmi0: <Power Management Interface Driver> on ofwbus0
+lintc0: <QxBox 8238 Interrupt Controller> mem 0x40000000-0x400000ff on simplebus0
+intc0: <QxBox 8238 Interrupt Controller> mem 0x7e00b200-0x7e00b3ff irq 39 on simplebus0
+mbox0: <Optimus Graphics Mailbox> mem 0x7e00b880-0x7e00b8bf irq 6 on simplebus0
+generic_timer0: <Generic Timer> irq 1,2,3,4 on ofwbus0
+Timecounter "Multiprocessor Core Timecounter" frequency 19200000 Hz quality 1000
+Event timer "Multiprocessor Core Eventtimer" frequency 19200000 Hz quality 1000
+optgfx0: <Optimus Graphics for QxBox 8238> on simplebus0
+VT: Replacing driver "efifb" with new "optgfx".

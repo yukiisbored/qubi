@@ -14,7 +14,7 @@ const
   Wait = 1f
   Duration = 30f
   
-  ConfidentialNotice = "Qubi Solutions Confidential - Experimental Software - Do Not Distribute"
+  ConfidentialNotice = "Qubi Research Confidential - Experimental Software - Do Not Distribute"
 
   DaysPerWeek = 3
 
@@ -38,7 +38,16 @@ var
   rent = BaseWeeklyRent
 
 type
+  KernelBootScreen = ref object of Screen
+    lines: seq[string]
+    bootDuration: float
+    endTime: float
+
+  LoginScreen = ref object of Screen
+    iden: int 
+
   TransitionScreen = ref object of Screen
+    duration: float
     gameDuration: float
     endTime: float
 
@@ -74,7 +83,17 @@ proc drawConfidentialNotice() =
   let width = measureText(ConfidentialNotice, 10) div 2
   drawText(ConfidentialNotice, Center - width, 10, 10, Lightgray)
 
-proc newTransitionScreen*(): TransitionScreen = new result
+proc newKernelBootScreen*(duration: float): KernelBootScreen = 
+  new result
+  result.bootDuration = duration
+
+proc newLoginScreen*(): LoginScreen = new result
+
+proc newTransitionScreen*(duration: float): TransitionScreen = 
+  new result
+  result.duration = duration
+
+proc newTransitionScreen*(): TransitionScreen = newTransitionScreen(Wait)
 
 proc newGameScreen*(duration: float): GameScreen = 
   new result
@@ -87,9 +106,66 @@ proc newEndScreen*(total, bad: int): EndScreen =
 
 proc newGameOverScreen(): GameOverScreen = new result
 
+method init*(s: KernelBootScreen) =
+  s.lines = toSeq(lines "assets/dmesg.txt")
+  s.endTime = getTime() + s.bootDuration
+
+method update*(s: KernelBootScreen) =
+  beginDrawing:
+    clearBackground(Black)
+
+    block:
+      let 
+        delta = s.endTime - getTime()
+        progress = 1 - (delta / 3f)
+        maxLine = int(progress * s.lines.len.float)
+
+      for i in 0..<maxLine:
+        let y = 12 * (i+1)
+        drawText(s.lines[i], 10, y, 10, White)
+
+    block:
+      if getTime() > s.endTime:
+        changeScreen(newLoginScreen())
+
+method init*(s: LoginScreen) =
+  s.iden = rand(1024..8192)
+
+method update*(s: LoginScreen) =
+  beginDrawing:
+    clearBackground(White)
+    drawConfidentialNotice()
+
+    block:
+      let
+        text = "Thank you for participating in Qubi Research"
+        width = measureText(text, 20) div 2 
+
+      drawText(text, Center - width, Center - 40, 20, Black)
+
+    block:
+      let
+        text = "Press any key to start"
+        width = measureText(text, 20) div 2
+
+      drawText(text, Center - width, Center + 40, 20, Darkgray)
+    
+
+    block:
+      let
+        text = "Authenticated as Research Participant #" & $s.iden
+        width = measureText(text, 10) div 2
+        
+      drawText(text, Center - width, Size - 20, 10, Lightgray)
+
+    block:
+      if getKeyPressed() > 0:
+        changeScreen(newTransitionScreen(5f))
+      
+
 method init*(s: TransitionScreen) =
   s.gameDuration = Duration
-  s.endTime = getTime() + Wait
+  s.endTime = getTime() + s.duration
 
   if day >= 6:
     s.gameDuration = rand(5..30).float
@@ -103,7 +179,7 @@ method update*(s: TransitionScreen) =
     block:
       let 
         delta = s.endTime - getTime()
-        progress = delta / Wait
+        progress = delta / s.duration
 
       drawRectangle(0, Size - 10, int(progress * Size.float), 10, Lightgray)
     
@@ -277,7 +353,9 @@ method init*(s: GameOverScreen) =
     "Qubi Solutions, LLC",
     "Always Leaping Boundaries",
     "",
-    "You have completed " & $day & " days."
+    "You have completed " & $day & " days.",
+    "",
+    "If you wish to create a new account, press ENTER."
   ]
 
 
@@ -294,3 +372,7 @@ method update*(s: GameOverScreen) =
       for i, msg in s.messages:
         let y = 25 * (i + 2)
         drawText(msg, 10, y, 20, Black)
+
+    block:
+      if isKeyPressed(Enter):
+        changeScreen(newLoginScreen())
