@@ -6,9 +6,21 @@ let
   shell = pkgs.mkShell {
     buildInputs = with pkgs; [
       nim
-      nimlsp
       emscripten
+
+      xorg.libX11
+      xorg.libXrandr
+      xorg.libXinerama
+      xorg.libXcursor
+      xorg.libXi
+      xorg.libXext
+
+      nimlsp
     ];
+
+    shellHook = ''
+      export EM_CACHE="$HOME/.cache/emscripten"
+      '';
   };
 in
 {
