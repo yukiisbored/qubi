@@ -84,6 +84,9 @@ type
     overlayColor: Color
     overlayAlpha: float
 
+    lastClick: float
+    click: Sound
+
     endTime: float
 
   EndScreen* = ref object of Screen 
@@ -232,6 +235,7 @@ proc reset(s: GameScreen) =
 
 method init*(s: GameScreen) = 
   s.words = toSeq(lines "assets/words.txt")
+  s.click = loadSound("assets/click.wav")
   s.reset()
   s.endTime = getTime() + s.duration
 
@@ -286,6 +290,10 @@ method update*(s: GameScreen) =
         s.reset()
 
     block:
+      if getTime() - s.lastClick >= 1:
+        s.click.playSound()
+        s.lastClick = getTime()
+
       if getTime() >= s.endTime:
         changeScreen(newEndScreen(s.total, s.bad))
 

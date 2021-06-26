@@ -11,6 +11,7 @@ proc main() =
   randomize()
 
   initWindow(Size, Size, "OpenWorkstation Enterprise - Licensed for Qubi Innovative Solutions, LLC")
+  initAudioDevice()
 
   changeScreen(newKernelBootScreen(1f))
 
@@ -20,6 +21,7 @@ proc main() =
     setTargetFPS(60)
     while not windowShouldClose(): update()
 
+  closeAudioDevice()
   closeWindow()
 
 when isMainModule: main()
