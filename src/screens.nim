@@ -160,7 +160,7 @@ method update*(s: LoginScreen) =
 
     block:
       let
-        text = "Thank you for participating in Qubi Research"
+        text = "Welcome to Experimental Research Program"
         width = measureText(text, 20) div 2 
 
       drawText(text, Center - width, Center - 40, 20, Black)
@@ -171,7 +171,6 @@ method update*(s: LoginScreen) =
         width = measureText(text, 20) div 2
 
       drawText(text, Center - width, Center + 40, 20, Darkgray)
-    
 
     block:
       let
@@ -207,7 +206,7 @@ method update*(s: TransitionScreen) =
     
     block:
       let
-        text = $s.gameDuration & " seconds"
+        text = $s.gameDuration & " seconds."
         width = measureText(text, 40) div 2
 
       drawText(text, Center - width, Center - 20, 40, Lightgray)
@@ -309,14 +308,18 @@ method init*(s: EndScreen) =
   if day mod DaysPerWeek == 0:
     s.items.add(("Rent", rent * -1))
     rent += int(rent.float * RentIncreaseFactor)
-    s.messages.add("--- Your landlord has increased rent: " & $rent)
+    s.messages.add("--- Rent has increased to " & $rent)
   else:
     let dayDue = DaysPerWeek - (day mod DaysPerWeek)
-    s.messages.add("--- Rent is due in " & $dayDue & " day(s): " & $rent)
+
+    if dayDue > 1:
+      s.messages.add("--- Rent due in " & $dayDue & " days.")
+    else:
+      s.messages.add("--- Rent due tomorrow.")
 
   if day == 6:
     s.messages.add("--- To meet high demand, allocated session time")
-    s.messages.add("--- are now randomized.")
+    s.messages.add("--- are load balanced.")
 
   block:
     if day >= 15:
@@ -379,7 +382,7 @@ method update*(s: EndScreen) =
         drawText(msg, 10, y, 20, Violet)
 
     block:
-      const text = "Press ENTER to continue ..." 
+      const text = "Press Enter to skip day." 
       let width = measureText(text, 20) div 2 
       drawText(text, Center - width, Size - 30, 20, Black)
 
@@ -392,19 +395,15 @@ method update*(s: EndScreen) =
 
 method init*(s: GameOverScreen) =
   s.messages = @[
-    "You have surpassed the overdraft limit of",
-    "your account.",
+    "Due to your account being frozen, your ",
+    "position is now immediately dismissed.",
     "",
-    "Your position is now immediately dismissed.",
-    "",
-    "Thank you for participating in our research.",
-    "",
-    "Qubi Solutions, LLC",
-    "Always Leaping Boundaries",
+    "Thank you for taking part,",
+    "- Public Services Division at Qubi Research",
     "",
     "You have completed " & $day & " days.",
     "",
-    "If you wish to create a new account, press ENTER."
+    "Press Enter to retry."
   ]
 
 
